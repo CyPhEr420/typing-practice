@@ -1,0 +1,1 @@
+Just tired to create a inline typing function, just a rough creation

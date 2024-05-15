@@ -1,0 +1,41 @@
+span {
+  font-size: 20px;
+  color: rgb(168, 168, 168);
+  caret-color: transparent;
+  /* pointer-events: none; */
+  text-decoration: none;
+}
+
+.right {
+  color: white;
+  font-weight: bold;
+}
+
+.wrong {
+  background-color: red;
+}
+
+@keyframes blink {
+  0% {
+    background-color: lightgreen;
+  }
+  40% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: lightgreen;
+  }
+}
+
+span:focus {
+  outline: none; /* Optional: Remove default focus outline */
+  animation: blink 2s infinite; /* Apply the blink animation */
+}
+
+.wrong {
+  animation: none !important;
+}
+
+.typing-container {
+  pointer-events: none;
+}
