@@ -27,6 +27,16 @@ span {
   }
 }
 
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}
+
 span:focus {
   outline: none; /* Optional: Remove default focus outline */
   animation: blink 2s infinite; /* Apply the blink animation */
@@ -36,6 +46,12 @@ span:focus {
   animation: none !important;
 }
 
-.typing-container {
+/* .typing-container {
   pointer-events: none;
+} */
+
+.top-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
