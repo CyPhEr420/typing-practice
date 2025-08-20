@@ -1,57 +1,77 @@
-span {
-  font-size: 20px;
-  color: rgb(168, 168, 168);
-  caret-color: transparent;
-  /* pointer-events: none; */
-  text-decoration: none;
-}
-
-.right {
-  color: white;
-  font-weight: bold;
-}
-
-.wrong {
-  background-color: red;
-}
-
-@keyframes blink {
-  0% {
-    background-color: lightgreen;
-  }
-  40% {
-    background-color: transparent;
-  }
-  100% {
-    background-color: lightgreen;
-  }
-}
-
-body {
+.typing-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 100vh;
+  background-color: #282c34;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
 }
-
-button {
-  cursor: pointer;
-}
-
-span:focus {
-  outline: none; /* Optional: Remove default focus outline */
-  animation: blink 2s infinite; /* Apply the blink animation */
-}
-
-.wrong {
-  animation: none !important;
-}
-
-/* .typing-container {
-  pointer-events: none;
-} */
 
 .top-info {
   display: flex;
-  align-items: center;
-  gap: 2rem;
+  justify-content: space-around;
+  width: 80%;
+  max-width: 800px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+.typing-area {
+  width: 80%;
+  max-width: 800px;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.hidden-input {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.text-display {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #6c757d;
+  text-align: justify;
+}
+
+.text-display span {
+  transition: color 0.2s;
+}
+
+.text-display span.right {
+  color: #d4d4d4;
+}
+
+.text-display span.wrong {
+  color: #dc3545;
+  text-decoration: underline;
+}
+
+.text-display span.current {
+  background-color: #007bff;
+  color: white;
+  border-radius: 2px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
