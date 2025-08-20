@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import Metrics from './components/Metrics';
 import TypingTest from './components/TypingTest';
 import ResetButton from './components/ResetButton';
-import { text as newText } from './text';
+import Options from './components/Options';
+import { texts } from './texts';
 import './App.css';
 
 function App() {
-  const [text, setText] = useState(newText);
+  const [textType, setTextType] = useState('story');
+  const [duration, setDuration] = useState(1); // in minutes
+  const [text, setText] = useState(texts[textType]);
   const [userInput, setUserInput] = useState('');
   const [errors, setErrors] = useState(0);
   const [started, setStarted] = useState(false);
@@ -15,6 +18,11 @@ function App() {
   const timerIdRef = useRef(null);
   const [wpm, setWPM] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
+
+  useEffect(() => {
+    setText(texts[textType]);
+    resetTest();
+  }, [textType]);
 
   const startClock = () => {
     timerIdRef.current = setInterval(() => {
@@ -60,21 +68,35 @@ function App() {
       }, 0);
       setErrors(currentErrors);
 
-      const newAccuracy = Math.floor(
-        ((userInput.length - currentErrors) / userInput.length) * 100
-      );
-      setAccuracy(newAccuracy > 0 ? newAccuracy : 100);
+      if (userInput.length > 0) {
+        const newAccuracy = Math.floor(
+          ((userInput.length - currentErrors) / userInput.length) * 100
+        );
+        setAccuracy(newAccuracy);
+      } else {
+        setAccuracy(100);
+      }
     }
   }, [userInput, text, started, finished]);
 
   useEffect(() => {
     if (started && !finished && timer > 0) {
-      const wordsTyped = userInput.length / 5;
       const minutes = timer / 60;
-      const currentWPM = Math.round(wordsTyped / minutes);
-      setWPM(currentWPM > 0 ? currentWPM : 0);
+      if (minutes > 0) {
+        const wordsTyped = userInput.length / 5;
+        const currentWPM = Math.round(wordsTyped / minutes);
+        setWPM(currentWPM);
+      } else {
+        setWPM(0);
+      }
     }
   }, [timer, started, finished, userInput]);
+
+  useEffect(() => {
+    if (started && !finished && timer >= duration * 60) {
+      handleFinish();
+    }
+  }, [timer, started, finished, duration]);
 
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
@@ -86,9 +108,14 @@ function App() {
     )}:${String(secs).padStart(2, '0')}`;
   };
 
-
   return (
-    <>
+    <div className="app-container">
+      <Options
+        textType={textType}
+        onTextTypeChange={setTextType}
+        duration={duration}
+        onDurationChange={setDuration}
+      />
       <div className="typing-container">
         <Metrics wpm={wpm} accuracy={accuracy} time={formatTime(timer)} />
         <TypingTest
@@ -98,7 +125,7 @@ function App() {
         />
         <ResetButton onReset={resetTest} />
       </div>
-    </>
+    </div>
   );
 }
 
